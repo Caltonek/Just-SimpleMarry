@@ -1,0 +1,10 @@
+database:
+  #Co ile zapisywać do bazy danych z Cache
+  flush-interval-minutes: 5
+
+settings:
+  # Czas oczekiwania pomiędzy rozwodem a kolejnym marry
+  divorce-cooldown-seconds: 10
+
+  # Czas ważności marry
+  proposal-expiration-seconds: 300

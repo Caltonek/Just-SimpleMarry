@@ -1,0 +1,43 @@
+player-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Ten gracz jest offline."
+
+marry:
+  self-proposal: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie możesz wysłać oświadczyn samemu sobie."
+  divorce-cooldown: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Musisz odczekać jeszcze <white><seconds>s<red> przed kolejnym ślubem."
+  already-married-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Jesteś już w związku."
+  already-married-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Ten gracz jest już w związku."
+  proposal-sent: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wysłano oświadczyny do gracza <white><target><gray>."
+  proposal-received: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>oświadczył się Tobie.\n<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wpisz <yellow>/marry <sender><gray>, aby zaakceptować."
+  broadcast-success: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><player1> <gray>i <white><player2> <gray>właśnie wzięli ślub!"
+  status-single: "<red>Brak (singiel)"
+  menu:
+    - "<gradient:#ff7e5f:#feb47b><bold>--------------------------------</bold></gradient>"
+    - ""
+    - " <gray>Status: <status>"
+    - ""
+    - " <yellow>Komendy:"
+    - "  <gold>/marry <nick> <gray>- Oświadczyny / Akceptacja"
+    - "  <gold>/marrydivorce <gray>- Rozwód"
+    - "  <gold>/marrygift <gray>- Wręczenie przedmiotu z ręki"
+    - "  <gold>/marrytp <gray>- Teleportacja do partnera"
+    - ""
+    - "<gradient:#ff7e5f:#feb47b><bold>--------------------------------</bold></gradient>"
+
+divorce:
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  success-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wziąłeś rozwód z <white><target><gray>."
+  success-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>wziął z Tobą rozwód."
+  broadcast-success: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><player1> <gray>i <white><player2> <gray>rozwiedli się."
+
+gift:
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  partner-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Twój partner jest offline."
+  no-item: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Musisz trzymać przedmiot w dłoni."
+  sent: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Przekazano prezent dla <white><target><gray>."
+  received: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Otrzymano prezent od <white><sender><gray>."
+
+tp:
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  partner-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Twój partner jest offline."
+  success-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Przeteleportowano do <white><target><gray>."
+  success-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>przeteleportował się do Ciebie."
+  failed: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Teleportacja nie powiodła się."

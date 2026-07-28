@@ -1,0 +1,20 @@
+name: SimpleMarry
+version: '${version}'
+main: pl.caltonek.simpleMarry.SimpleMarry
+api-version: '26.2'
+load: STARTUP
+authors: [ Caltonek ]
+
+commands:
+  marry:
+    aliases: [slub]
+    usage: /marry <nick>
+  marrydivorce:
+    aliases: [rozwod]
+    usage: /marrydivorce
+  marrygift:
+    aliases: [prezent]
+    usage: /marrygift
+  marrytp:
+    aliases: [partnertp, partner]
+    usage: /marrytp
