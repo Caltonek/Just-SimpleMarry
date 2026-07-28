@@ -6,6 +6,7 @@ import pl.caltonek.simpleMarry.model.Marriage;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class CacheDatabase {
 
@@ -14,6 +15,7 @@ public final class CacheDatabase {
     private final ConfigManager configManager;
 
     private final Map<UUID, UUID> marriageCache = new ConcurrentHashMap<>();
+    private final List<Marriage> orderedMarriages = new CopyOnWriteArrayList<>();
     private final Map<UUID, UUID> pendingAdds = new ConcurrentHashMap<>();
     private final Set<UUID> pendingDeletes = ConcurrentHashMap.newKeySet();
     private final Map<UUID, Long> divorceCooldowns = new ConcurrentHashMap<>();
@@ -49,6 +51,7 @@ public final class CacheDatabase {
                 for (Marriage marriage : marriages) {
                     marriageCache.put(marriage.player1(), marriage.player2());
                     marriageCache.put(marriage.player2(), marriage.player1());
+                    orderedMarriages.add(marriage);
                 }
                 plugin.getLogger().info("Loaded " + marriages.size() + " marriages in " + (System.currentTimeMillis() - start) + "ms.");
             } catch (Exception e) {
@@ -65,9 +68,16 @@ public final class CacheDatabase {
         return marriageCache.get(playerUuid);
     }
 
+    public List<Marriage> getOrderedMarriages() {
+        return Collections.unmodifiableList(new ArrayList<>(orderedMarriages));
+    }
+
     public void marry(UUID player1, UUID player2) {
         marriageCache.put(player1, player2);
         marriageCache.put(player2, player1);
+
+        Marriage marriage = new Marriage(player1, player2);
+        orderedMarriages.add(marriage);
 
         pendingDeletes.remove(player1);
         pendingDeletes.remove(player2);
@@ -79,6 +89,8 @@ public final class CacheDatabase {
         UUID partnerUuid = marriageCache.remove(playerUuid);
         if (partnerUuid != null) {
             marriageCache.remove(partnerUuid);
+
+            orderedMarriages.removeIf(m -> m.player1().equals(playerUuid) || m.player2().equals(playerUuid));
 
             pendingAdds.remove(playerUuid);
             pendingAdds.remove(partnerUuid);

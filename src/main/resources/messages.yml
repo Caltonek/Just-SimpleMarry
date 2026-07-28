@@ -19,6 +19,7 @@ marry:
     - "  <gold>/marrydivorce <gray>- Rozwód"
     - "  <gold>/marrygift <gray>- Wręczenie przedmiotu z ręki"
     - "  <gold>/marrytp <gray>- Teleportacja do partnera"
+    - "  <gold>/marrylist <gray>- Lista zawartych małżeństw"
     - ""
     - "<gradient:#ff7e5f:#feb47b><bold>--------------------------------</bold></gradient>"
 
@@ -41,3 +42,10 @@ tp:
   success-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Przeteleportowano do <white><target><gray>."
   success-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>przeteleportował się do Ciebie."
   failed: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Teleportacja nie powiodła się."
+
+marrylist:
+  empty: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Brak zarejestrowanych małżeństw."
+  invalid-page: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Podano niepoprawny numer strony. Dostępne strony: 1-<max_page>."
+  header: "<gradient:#ff7e5f:#feb47b><bold>---- Lista Małżeństw (<page>/<max_page>) ----</bold></gradient>"
+  format: " <gray><index>. <white><player1> <red>❤ <white><player2>"
+  footer: "<gradient:#ff7e5f:#feb47b><bold>----------------------------------------</bold></gradient>"

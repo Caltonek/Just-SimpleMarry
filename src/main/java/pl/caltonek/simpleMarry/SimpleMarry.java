@@ -3,10 +3,7 @@ package pl.caltonek.simpleMarry;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.caltonek.simpleMarry.addon.MarryAddon;
-import pl.caltonek.simpleMarry.command.MarryCommand;
-import pl.caltonek.simpleMarry.command.MarryDivorceCommand;
-import pl.caltonek.simpleMarry.command.MarryGiftCommand;
-import pl.caltonek.simpleMarry.command.MarryTpCommand;
+import pl.caltonek.simpleMarry.command.*;
 import pl.caltonek.simpleMarry.config.ConfigManager;
 import pl.caltonek.simpleMarry.database.CacheDatabase;
 import pl.caltonek.simpleMarry.database.LocalDatabase;
@@ -58,6 +55,7 @@ public final class SimpleMarry extends JavaPlugin {
         registerCommand("marrydivorce", new MarryDivorceCommand(cacheDatabase, configManager));
         registerCommand("marrygift", new MarryGiftCommand(cacheDatabase, configManager));
         registerCommand("marrytp", new MarryTpCommand(cacheDatabase, configManager));
+        registerCommand("marrylist", new MarryListCommand(cacheDatabase, configManager));
     }
 
     private void registerCommand(String name, org.bukkit.command.CommandExecutor executor) {
