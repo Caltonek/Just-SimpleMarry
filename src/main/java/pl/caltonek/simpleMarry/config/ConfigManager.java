@@ -19,6 +19,9 @@ public final class ConfigManager {
     private long divorceCooldownMs;
     private long proposalExpirationMs;
 
+    private String marriedSymbol;
+    private String singleSymbol;
+
     public ConfigManager(SimpleMarry plugin) {
         this.plugin = plugin;
     }
@@ -31,6 +34,9 @@ public final class ConfigManager {
         this.flushIntervalMinutes = mainConfig.getInt("database.flush-interval-minutes", 5);
         this.divorceCooldownMs = mainConfig.getLong("settings.divorce-cooldown-seconds", 10) * 1000L;
         this.proposalExpirationMs = mainConfig.getLong("settings.proposal-expiration-seconds", 300) * 1000L;
+
+        this.marriedSymbol = mainConfig.getString("placeholders.married-symbol", "&c❤ ");
+        this.singleSymbol = mainConfig.getString("placeholders.single-symbol", "");
 
         File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
         if (!messagesFile.exists()) {
@@ -63,4 +69,6 @@ public final class ConfigManager {
     public int getFlushIntervalMinutes() { return flushIntervalMinutes; }
     public long getDivorceCooldownMs() { return divorceCooldownMs; }
     public long getProposalExpirationMs() { return proposalExpirationMs; }
+    public String getMarriedSymbol() { return marriedSymbol; }
+    public String getSingleSymbol() { return singleSymbol; }
 }
