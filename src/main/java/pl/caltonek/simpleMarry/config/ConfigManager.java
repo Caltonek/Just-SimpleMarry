@@ -35,7 +35,7 @@ public final class ConfigManager {
         this.divorceCooldownMs = mainConfig.getLong("settings.divorce-cooldown-seconds", 10) * 1000L;
         this.proposalExpirationMs = mainConfig.getLong("settings.proposal-expiration-seconds", 300) * 1000L;
 
-        this.marriedSymbol = mainConfig.getString("placeholders.married-symbol", "&c❤ ");
+        this.marriedSymbol = mainConfig.getString("placeholders.married-symbol", "&#C21E56❤ ");
         this.singleSymbol = mainConfig.getString("placeholders.single-symbol", "");
 
         File messagesFile = new File(plugin.getDataFolder(), "messages.yml");
