@@ -4,7 +4,6 @@ main: pl.caltonek.simpleMarry.SimpleMarry
 api-version: '26.2'
 load: STARTUP
 authors: [ Caltonek ]
-
 commands:
   marry:
     aliases: [slub]

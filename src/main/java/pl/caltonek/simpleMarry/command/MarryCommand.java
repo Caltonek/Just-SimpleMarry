@@ -32,7 +32,7 @@ public final class MarryCommand implements CommandExecutor {
         if (!(sender instanceof Player player)) return true;
 
         if (args.length == 0) {
-            renderMenuAndStatus(player);
+            renderChatMenu(player);
             return true;
         }
 
@@ -46,7 +46,7 @@ public final class MarryCommand implements CommandExecutor {
         return true;
     }
 
-    private void renderMenuAndStatus(Player player) {
+    private void renderChatMenu(Player player) {
         UUID partnerUuid = cacheDatabase.getPartner(player.getUniqueId());
         String statusFormatted;
 
@@ -60,7 +60,7 @@ public final class MarryCommand implements CommandExecutor {
                 statusFormatted = "<green>" + (name != null ? name : partnerUuid.toString());
             }
         } else {
-            statusFormatted = configManager.getMessage("marry.status-single").toString();
+            statusFormatted = configManager.getRawMessage("marry.status-single");
         }
 
         for (Component line : configManager.getMessageList("marry.menu", "status", statusFormatted)) {

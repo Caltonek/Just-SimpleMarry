@@ -2,12 +2,12 @@ package pl.caltonek.simpleMarry;
 
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
-import pl.caltonek.simpleMarry.addon.MarryAddon;
 import pl.caltonek.simpleMarry.command.*;
 import pl.caltonek.simpleMarry.config.ConfigManager;
 import pl.caltonek.simpleMarry.database.CacheDatabase;
 import pl.caltonek.simpleMarry.database.LocalDatabase;
 import pl.caltonek.simpleMarry.listener.MarryChatListener;
+import pl.caltonek.simpleMarry.listener.PaperMarryChatListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,12 +35,7 @@ public final class SimpleMarry extends JavaPlugin {
         this.cacheDatabase.loadAsync();
 
         registerCommands();
-
-        getServer().getPluginManager().registerEvents(new MarryChatListener(cacheDatabase, configManager), this);
-
-        if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-            new MarryAddon(this, cacheDatabase, configManager).register();
-        }
+        registerChatListeners();
 
         long intervalMinutes = configManager.getFlushIntervalMinutes();
         getServer().getAsyncScheduler().runAtFixedRate(
@@ -48,6 +43,15 @@ public final class SimpleMarry extends JavaPlugin {
                 task -> cacheDatabase.flush(),
                 intervalMinutes, intervalMinutes, TimeUnit.MINUTES
         );
+    }
+
+    private void registerChatListeners() {
+        getServer().getPluginManager().registerEvents(new MarryChatListener(cacheDatabase, configManager), this);
+
+        try {
+            Class.forName("io.papermc.paper.event.player.AsyncChatEvent");
+            getServer().getPluginManager().registerEvents(new PaperMarryChatListener(cacheDatabase, configManager), this);
+        } catch (ClassNotFoundException ignored) {}
     }
 
     private void registerCommands() {

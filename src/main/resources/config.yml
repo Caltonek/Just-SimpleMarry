@@ -1,8 +1,11 @@
-#LPC Prefix: {marriage-status}
-#PlaceholderAPI Prefix: %simplemarry_status%
+# placeholder: {marriage-status}
 database:
   flush-interval-minutes: 5
 
 settings:
   divorce-cooldown-seconds: 10
   proposal-expiration-seconds: 300
+
+placeholders:
+  married-symbol: "&#C21E56❤ "
+  single-symbol: ""

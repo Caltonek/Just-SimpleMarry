@@ -45,6 +45,10 @@ public final class ConfigManager {
         this.messagesConfig = YamlConfiguration.loadConfiguration(messagesFile);
     }
 
+    public String getRawMessage(String path) {
+        return messagesConfig.getString(path, "<red>Missing message: " + path);
+    }
+
     public Component getMessage(String path, String... placeholders) {
         String rawMessage = messagesConfig.getString(path, "<red>Missing message: " + path);
         for (int i = 0; i < placeholders.length - 1; i += 2) {

@@ -2,15 +2,54 @@ package pl.caltonek.simpleMarry.util;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class ColorUtil {
     private static final MiniMessage MM = MiniMessage.miniMessage();
+    private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacySection();
+
+    private static final Pattern CMI_GRADIENT_PATTERN = Pattern.compile("\\{#([0-9a-fA-F]{6})\\}>(.*?)\\{#([0-9a-fA-F]{6})<\\}");
+    private static final Pattern LEGACY_GRADIENT_PATTERN = Pattern.compile("&#([0-9a-fA-F]{6})>(.*?)&#([0-9a-fA-F]{6})<");
 
     private ColorUtil() {}
 
     public static Component color(String input) {
         if (input == null || input.isEmpty()) return Component.empty();
-        return MM.deserialize(parseLegacyAndHex(input));
+        String parsed = parsePatterns(input);
+        parsed = parseLegacyAndHex(parsed);
+        return MM.deserialize(parsed);
+    }
+
+    public static String colorize(String input) {
+        if (input == null || input.isEmpty()) return "";
+        return LEGACY_SERIALIZER.serialize(color(input));
+    }
+
+    public static String parsePatterns(String str) {
+        if (str == null) return "";
+
+        Matcher cmiMatcher = CMI_GRADIENT_PATTERN.matcher(str);
+        while (cmiMatcher.find()) {
+            String start = cmiMatcher.group(1);
+            String content = cmiMatcher.group(2);
+            String end = cmiMatcher.group(3);
+            str = str.replace(cmiMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
+            cmiMatcher = CMI_GRADIENT_PATTERN.matcher(str);
+        }
+
+        Matcher legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(str);
+        while (legacyMatcher.find()) {
+            String start = legacyMatcher.group(1);
+            String content = legacyMatcher.group(2);
+            String end = legacyMatcher.group(3);
+            str = str.replace(legacyMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
+            legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(str);
+        }
+
+        return str;
     }
 
     public static String parseLegacyAndHex(String str) {
