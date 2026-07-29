@@ -53,7 +53,7 @@ public final class CacheDatabase {
                     marriageCache.put(marriage.player2(), marriage.player1());
                     orderedMarriages.add(marriage);
                 }
-                plugin.getLogger().info("Loaded " + marriages.size() + " marriages in " + (System.currentTimeMillis() - start) + "ms.");
+                plugin.getLogger().info("Loaded " + marriages.size() + " marriages into cache.");
             } catch (Exception e) {
                 plugin.getLogger().severe("Cache load failed: " + e.getMessage());
             }
