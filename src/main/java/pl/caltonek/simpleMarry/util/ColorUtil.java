@@ -3,11 +3,14 @@ package pl.caltonek.simpleMarry.util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public final class ColorUtil {
+
     private static final MiniMessage MM = MiniMessage.miniMessage();
     private static final LegacyComponentSerializer LEGACY_SERIALIZER = LegacyComponentSerializer.legacySection();
 
@@ -16,58 +19,59 @@ public final class ColorUtil {
 
     private ColorUtil() {}
 
-    public static Component color(String input) {
+    public static @NotNull Component color(final @Nullable String input) {
         if (input == null || input.isEmpty()) return Component.empty();
         String parsed = parsePatterns(input);
         parsed = parseLegacyAndHex(parsed);
         return MM.deserialize(parsed);
     }
 
-    public static String colorize(String input) {
+    public static @NotNull String colorize(final @Nullable String input) {
         if (input == null || input.isEmpty()) return "";
         return LEGACY_SERIALIZER.serialize(color(input));
     }
 
-    public static String parsePatterns(String str) {
+    public static @NotNull String parsePatterns(final @Nullable String str) {
         if (str == null) return "";
 
-        Matcher cmiMatcher = CMI_GRADIENT_PATTERN.matcher(str);
+        String result = str;
+        Matcher cmiMatcher = CMI_GRADIENT_PATTERN.matcher(result);
         while (cmiMatcher.find()) {
-            String start = cmiMatcher.group(1);
-            String content = cmiMatcher.group(2);
-            String end = cmiMatcher.group(3);
-            str = str.replace(cmiMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
-            cmiMatcher = CMI_GRADIENT_PATTERN.matcher(str);
+            final String start = cmiMatcher.group(1);
+            final String content = cmiMatcher.group(2);
+            final String end = cmiMatcher.group(3);
+            result = result.replace(cmiMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
+            cmiMatcher = CMI_GRADIENT_PATTERN.matcher(result);
         }
 
-        Matcher legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(str);
+        Matcher legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(result);
         while (legacyMatcher.find()) {
-            String start = legacyMatcher.group(1);
-            String content = legacyMatcher.group(2);
-            String end = legacyMatcher.group(3);
-            str = str.replace(legacyMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
-            legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(str);
+            final String start = legacyMatcher.group(1);
+            final String content = legacyMatcher.group(2);
+            final String end = legacyMatcher.group(3);
+            result = result.replace(legacyMatcher.group(0), "<gradient:#" + start + ":#" + end + ">" + content + "</gradient>");
+            legacyMatcher = LEGACY_GRADIENT_PATTERN.matcher(result);
         }
 
-        return str;
+        return result;
     }
 
-    public static String parseLegacyAndHex(String str) {
-        int len = str.length();
-        StringBuilder sb = new StringBuilder(len + 16);
-        char[] chars = str.toCharArray();
+    public static @NotNull String parseLegacyAndHex(final @NotNull String str) {
+        final int len = str.length();
+        final StringBuilder sb = new StringBuilder(len + 16);
+        final char[] chars = str.toCharArray();
 
         for (int i = 0; i < len; i++) {
-            char c = chars[i];
+            final char c = chars[i];
 
             if ((c == '&' || c == '§') && i + 1 < len) {
-                char next = Character.toLowerCase(chars[i + 1]);
+                final char next = Character.toLowerCase(chars[i + 1]);
 
                 // Bungee hex
                 if (next == 'x' && i + 13 < len) {
                     boolean isBungee = true;
                     for (int k = 2; k <= 12; k += 2) {
-                        char sub = chars[i + k];
+                        final char sub = chars[i + k];
                         if (sub != '&' && sub != '§') { isBungee = false; break; }
                     }
                     if (isBungee) {
@@ -99,7 +103,7 @@ public final class ColorUtil {
                 }
 
                 // Legacy
-                String tag = switch (next) {
+                final String tag = switch (next) {
                     case '0' -> "<black>";
                     case '1' -> "<dark_blue>";
                     case '2' -> "<dark_green>";
@@ -167,9 +171,9 @@ public final class ColorUtil {
         return sb.toString();
     }
 
-    private static boolean isHex(char[] chars, int start, int count) {
+    private static boolean isHex(final char @NotNull [] chars, final int start, final int count) {
         for (int i = start; i < start + count; i++) {
-            char ch = chars[i];
+            final char ch = chars[i];
             if (!((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F'))) return false;
         }
         return true;

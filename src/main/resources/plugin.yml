@@ -4,6 +4,7 @@ main: pl.caltonek.simpleMarry.SimpleMarry
 api-version: '26.2'
 load: STARTUP
 authors: [ Caltonek ]
+softdepend: [ LPC ]
 commands:
   marry:
     aliases: [slub]
@@ -20,3 +21,15 @@ commands:
   marrylist:
     aliases: [ listazwizkow ]
     usage: /marrylist
+  marrychat:
+    aliases: [ mchat ]
+    usage: /marrychat
+  marryreload:
+    aliases: [ mreload ]
+    usage: /marryreload
+    permission: simple-marry.command.admin.reload
+
+permissions:
+  simple-marry.command.admin.reload:
+    description: Fast config reload.
+    default: op

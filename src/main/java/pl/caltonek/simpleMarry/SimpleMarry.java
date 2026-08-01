@@ -1,21 +1,25 @@
 package pl.caltonek.simpleMarry;
 
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.caltonek.simpleMarry.command.*;
 import pl.caltonek.simpleMarry.config.ConfigManager;
 import pl.caltonek.simpleMarry.database.CacheDatabase;
 import pl.caltonek.simpleMarry.database.LocalDatabase;
 import pl.caltonek.simpleMarry.listener.MarryChatListener;
+import pl.caltonek.simpleMarry.listener.MarryKissListener;
 import pl.caltonek.simpleMarry.listener.PaperMarryChatListener;
 
 import java.util.concurrent.TimeUnit;
 
 public final class SimpleMarry extends JavaPlugin {
 
-    private ConfigManager configManager;
-    private LocalDatabase localDatabase;
-    private CacheDatabase cacheDatabase;
+    private @Nullable ConfigManager configManager;
+    private @Nullable LocalDatabase localDatabase;
+    private @Nullable CacheDatabase cacheDatabase;
 
     @Override
     public void onEnable() {
@@ -37,15 +41,23 @@ public final class SimpleMarry extends JavaPlugin {
         registerCommands();
         registerChatListeners();
 
-        long intervalMinutes = configManager.getFlushIntervalMinutes();
+        getServer().getPluginManager().registerEvents(new MarryKissListener(cacheDatabase, configManager), this);
+
+        final int batchInterval = configManager.getBatchIntervalSeconds();
         getServer().getAsyncScheduler().runAtFixedRate(
                 this,
-                task -> cacheDatabase.flush(),
-                intervalMinutes, intervalMinutes, TimeUnit.MINUTES
+                task -> {
+                    if (cacheDatabase != null) {
+                        cacheDatabase.flush();
+                    }
+                },
+                batchInterval, batchInterval, TimeUnit.SECONDS
         );
     }
 
     private void registerChatListeners() {
+        if (cacheDatabase == null || configManager == null) return;
+
         getServer().getPluginManager().registerEvents(new MarryChatListener(cacheDatabase, configManager), this);
 
         try {
@@ -55,15 +67,19 @@ public final class SimpleMarry extends JavaPlugin {
     }
 
     private void registerCommands() {
+        if (cacheDatabase == null || configManager == null) return;
+
         registerCommand("marry", new MarryCommand(cacheDatabase, configManager));
         registerCommand("marrydivorce", new MarryDivorceCommand(cacheDatabase, configManager));
         registerCommand("marrygift", new MarryGiftCommand(cacheDatabase, configManager));
         registerCommand("marrytp", new MarryTpCommand(cacheDatabase, configManager));
         registerCommand("marrylist", new MarryListCommand(cacheDatabase, configManager));
+        registerCommand("marrychat", new MarryChatCommand(cacheDatabase, configManager));
+        registerCommand("marryreload", new ReloadCommand(configManager));
     }
 
-    private void registerCommand(String name, org.bukkit.command.CommandExecutor executor) {
-        PluginCommand command = getCommand(name);
+    private void registerCommand(final @NotNull String name, final @NotNull CommandExecutor executor) {
+        final PluginCommand command = getCommand(name);
         if (command != null) {
             command.setExecutor(executor);
         } else {

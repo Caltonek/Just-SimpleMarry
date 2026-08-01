@@ -6,41 +6,44 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.caltonek.simpleMarry.config.ConfigManager;
 import pl.caltonek.simpleMarry.database.CacheDatabase;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public final class MarryDivorceCommand implements CommandExecutor {
 
-    private final CacheDatabase cacheDatabase;
-    private final ConfigManager configManager;
+    private final @NotNull CacheDatabase cacheDatabase;
+    private final @NotNull ConfigManager configManager;
 
-    public MarryDivorceCommand(CacheDatabase cacheDatabase, ConfigManager configManager) {
-        this.cacheDatabase = cacheDatabase;
-        this.configManager = configManager;
+    public MarryDivorceCommand(final @NotNull CacheDatabase cacheDatabase, final @NotNull ConfigManager configManager) {
+        this.cacheDatabase = Objects.requireNonNull(cacheDatabase, "cacheDatabase cannot be null");
+        this.configManager = Objects.requireNonNull(configManager, "configManager cannot be null");
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String label, final String @NotNull [] args) {
         if (!(sender instanceof Player player)) return true;
 
-        UUID playerUuid = player.getUniqueId();
+        final UUID playerUuid = player.getUniqueId();
         if (!cacheDatabase.isMarried(playerUuid)) {
             player.sendMessage(configManager.getMessage("divorce.not-married"));
             return true;
         }
 
-        UUID partnerUuid = cacheDatabase.getPartner(playerUuid);
+        final @Nullable UUID partnerUuid = cacheDatabase.getPartner(playerUuid);
         String partnerName = "Nieznany";
 
         if (partnerUuid != null) {
-            Player onlinePartner = Bukkit.getPlayer(partnerUuid);
+            final @Nullable Player onlinePartner = Bukkit.getPlayer(partnerUuid);
             if (onlinePartner != null) {
                 partnerName = onlinePartner.getName();
             } else {
-                OfflinePlayer offlinePartner = Bukkit.getOfflinePlayer(partnerUuid);
-                String name = offlinePartner.getName();
+                final OfflinePlayer offlinePartner = Bukkit.getOfflinePlayer(partnerUuid);
+                final String name = offlinePartner.getName();
                 partnerName = (name != null) ? name : partnerUuid.toString();
             }
             cacheDatabase.setDivorceCooldown(partnerUuid);
@@ -52,7 +55,7 @@ public final class MarryDivorceCommand implements CommandExecutor {
         player.sendMessage(configManager.getMessage("divorce.success-sender", "target", partnerName));
 
         if (partnerUuid != null) {
-            Player partnerPlayer = Bukkit.getPlayer(partnerUuid);
+            final @Nullable Player partnerPlayer = Bukkit.getPlayer(partnerUuid);
             if (partnerPlayer != null && partnerPlayer.isOnline()) {
                 partnerPlayer.sendMessage(configManager.getMessage("divorce.success-target", "sender", player.getName()));
             }

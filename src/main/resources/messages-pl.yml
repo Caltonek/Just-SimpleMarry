@@ -1,0 +1,64 @@
+player-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Ten gracz jest offline."
+
+marry:
+  self-proposal: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie możesz wysłać oświadczyn samemu sobie."
+  divorce-cooldown: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Musisz odczekać jeszcze <white><seconds>s<red> przed kolejnym ślubem."
+  already-married-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Jesteś już w związku."
+  already-married-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Ten gracz jest już w związku."
+  proposal-sent: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wysłano oświadczyny do gracza <white><target><gray>."
+  proposal-received: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>oświadczył się Tobie.\n<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wpisz <yellow>/marry <sender><gray>, aby zaakceptować."
+  broadcast-success: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><player1> <gray>i <white><player2> <gray>właśnie wzięli ślub!"
+  status-single: "<red>Brak (singiel)"
+  menu:
+    - "<gradient:#ff7e5f:#feb47b><bold>--------------------------------</bold></gradient>"
+    - ""
+    - " <gray>Status: <status>"
+    - ""
+    - " <yellow>Komendy:"
+    - "  <gold>/marry <nick> <gray>- Oświadczyny / Akceptacja"
+    - "  <gold>/marrydivorce <gray>- Rozwód"
+    - "  <gold>/marrygift <gray>- Wręczenie przedmiotu z ręki"
+    - "  <gold>/marrytp <gray>- Teleportacja do partnera"
+    - "  <gold>/marrychat <gray>- Przełączanie na czat małżeński"
+    - "  <gold>/marrylist <gray>- Lista zawartych małżeństw"
+    - ""
+    - "<gradient:#ff7e5f:#feb47b><bold>--------------------------------</bold></gradient>"
+
+divorce:
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  success-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Wziąłeś rozwód z <white><target><gray>."
+  success-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>wziął z Tobą rozwód."
+  broadcast-success: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><player1> <gray>i <white><player2> <gray>rozwiedli się."
+
+gift:
+  disabled: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Wręczanie prezentów jest wyłączone na tym serwerze."
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  partner-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Twój partner jest offline."
+  no-item: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Musisz trzymać przedmiot w dłoni."
+  sent: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Przekazano prezent dla <white><target><gray>."
+  received: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Otrzymano prezent od <white><sender><gray>."
+
+tp:
+  disabled: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Teleportacja do partnera jest wyłączona na tym serwerze."
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  partner-offline: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Twój partner jest offline."
+  success-sender: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Przeteleportowano do <white><target><gray>."
+  success-target: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <white><sender> <gray>przeteleportował się do Ciebie."
+  failed: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Teleportacja nie powiodła się."
+
+marrylist:
+  empty: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Brak zarejestrowanych małżeństw."
+  invalid-page: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Podano niepoprawny numer strony. Dostępne strony: 1-<max_page>."
+  header: "<gradient:#ff7e5f:#feb47b><bold>---- Lista Małżeństw (<page>/<max_page>) ----</bold></gradient>"
+  format: " <gray><index>. <white><player1> <red>❤ <white><player2>"
+  footer: "<gradient:#ff7e5f:#feb47b><bold>--------------------------</bold></gradient>"
+
+marrychat:
+  not-married: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie jesteś w związku."
+  enabled: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Tryb czatu małżeńskiego został <green>WŁĄCZONY<gray>."
+  disabled: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <gray>Tryb czatu małżeńskiego został <red>WYŁĄCZONY<gray>."
+  format-sender: "<gradient:#ff7e5f:#feb47b><bold>[CZAT MAŁŻEŃSKI]</bold></gradient> <white><target><gray>: <message>"
+  format-receiver: "<gradient:#ff7e5f:#feb47b><bold>[CZAT MAŁŻEŃSKI]</bold></gradient> <white><target><gray>: <message>"
+
+no-permission: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <red>Nie masz uprawnień do użycia tej komendy."
+reload-success: "<gradient:#ff7e5f:#feb47b><bold>[ŚLUB]</bold></gradient> <green>Konfiguracja została pomyślnie przeładowana!"

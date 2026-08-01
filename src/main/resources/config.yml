@@ -1,11 +1,29 @@
 # placeholder: {marriage-status}
 database:
-  flush-interval-minutes: 5
+  # Auto-save interval in seconds (skipped if no changes)
+  batch-interval-seconds: 30
+  # Instant save when pending actions hit this count
+  batch-threshold: 10
 
 settings:
+  # Marriage cooldown between divorce and next marriage
   divorce-cooldown-seconds: 10
   proposal-expiration-seconds: 300
+  # Enable /marry tp
+  tp-enabled: true
+  # Enable /marry gift
+  gift-enabled: true
+  # Enable "sneak-kiss" feature
+  kiss-enabled: true
+  kiss-cooldown-seconds: 3
+  kiss-max-distance: 3.0
+  kiss-sound-enabled: true
+  kiss-sound: "entity.chicken.step"
+  kiss-sound-volume: 1.0
+  kiss-sound-pitch: 1.8
 
 placeholders:
+  # Chat icon for married players
   married-symbol: "&#C21E56❤ "
+  # Chat icon for single players
   single-symbol: ""

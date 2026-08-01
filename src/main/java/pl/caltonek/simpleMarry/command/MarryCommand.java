@@ -7,28 +7,35 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pl.caltonek.simpleMarry.config.ConfigManager;
 import pl.caltonek.simpleMarry.database.CacheDatabase;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class MarryCommand implements CommandExecutor {
 
-    private record Proposal(UUID proposerUuid, long timestampMs) {}
+    private record Proposal(@NotNull UUID proposerUuid, long timestampMs) {
+        private Proposal {
+            Objects.requireNonNull(proposerUuid, "proposerUuid cannot be null");
+        }
+    }
 
-    private final CacheDatabase cacheDatabase;
-    private final ConfigManager configManager;
+    private final @NotNull CacheDatabase cacheDatabase;
+    private final @NotNull ConfigManager configManager;
     private final Map<UUID, Proposal> activeProposals = new ConcurrentHashMap<>();
 
-    public MarryCommand(CacheDatabase cacheDatabase, ConfigManager configManager) {
-        this.cacheDatabase = cacheDatabase;
-        this.configManager = configManager;
+    public MarryCommand(final @NotNull CacheDatabase cacheDatabase, final @NotNull ConfigManager configManager) {
+        this.cacheDatabase = Objects.requireNonNull(cacheDatabase, "cacheDatabase cannot be null");
+        this.configManager = Objects.requireNonNull(configManager, "configManager cannot be null");
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(final @NotNull CommandSender sender, final @NotNull Command command, final @NotNull String label, final String @NotNull [] args) {
         if (!(sender instanceof Player player)) return true;
 
         if (args.length == 0) {
@@ -36,7 +43,7 @@ public final class MarryCommand implements CommandExecutor {
             return true;
         }
 
-        Player targetPlayer = Bukkit.getPlayerExact(args[0]);
+        final @Nullable Player targetPlayer = Bukkit.getPlayerExact(args[0]);
         if (targetPlayer == null) {
             player.sendMessage(configManager.getMessage("player-offline"));
             return true;
@@ -46,17 +53,17 @@ public final class MarryCommand implements CommandExecutor {
         return true;
     }
 
-    private void renderChatMenu(Player player) {
-        UUID partnerUuid = cacheDatabase.getPartner(player.getUniqueId());
-        String statusFormatted;
+    private void renderChatMenu(final @NotNull Player player) {
+        final @Nullable UUID partnerUuid = cacheDatabase.getPartner(player.getUniqueId());
+        final String statusFormatted;
 
         if (partnerUuid != null) {
-            Player onlinePartner = Bukkit.getPlayer(partnerUuid);
+            final @Nullable Player onlinePartner = Bukkit.getPlayer(partnerUuid);
             if (onlinePartner != null) {
                 statusFormatted = "<green>" + onlinePartner.getName();
             } else {
-                OfflinePlayer offlinePartner = Bukkit.getOfflinePlayer(partnerUuid);
-                String name = offlinePartner.getName();
+                final OfflinePlayer offlinePartner = Bukkit.getOfflinePlayer(partnerUuid);
+                final String name = offlinePartner.getName();
                 statusFormatted = "<green>" + (name != null ? name : partnerUuid.toString());
             }
         } else {
@@ -68,9 +75,9 @@ public final class MarryCommand implements CommandExecutor {
         }
     }
 
-    private void processMarriageProposal(Player sender, Player target) {
-        UUID senderUuid = sender.getUniqueId();
-        UUID targetUuid = target.getUniqueId();
+    private void processMarriageProposal(final @NotNull Player sender, final @NotNull Player target) {
+        final UUID senderUuid = sender.getUniqueId();
+        final UUID targetUuid = target.getUniqueId();
 
         if (senderUuid.equals(targetUuid)) {
             sender.sendMessage(configManager.getMessage("marry.self-proposal"));
@@ -78,7 +85,7 @@ public final class MarryCommand implements CommandExecutor {
         }
 
         if (cacheDatabase.hasDivorceCooldown(senderUuid)) {
-            long remainingSeconds = cacheDatabase.getRemainingDivorceCooldown(senderUuid);
+            final long remainingSeconds = cacheDatabase.getRemainingDivorceCooldown(senderUuid);
             sender.sendMessage(configManager.getMessage("marry.divorce-cooldown", "seconds", String.valueOf(remainingSeconds)));
             return;
         }
@@ -93,8 +100,8 @@ public final class MarryCommand implements CommandExecutor {
             return;
         }
 
-        long nowMs = System.currentTimeMillis();
-        Proposal pendingProposal = activeProposals.get(senderUuid);
+        final long nowMs = System.currentTimeMillis();
+        final @Nullable Proposal pendingProposal = activeProposals.get(senderUuid);
 
         if (pendingProposal != null && pendingProposal.proposerUuid().equals(targetUuid)) {
             activeProposals.remove(senderUuid);
